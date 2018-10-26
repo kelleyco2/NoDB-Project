@@ -1,0 +1,9 @@
+.container {
+    display: flex;
+}
+
+.listings {
+    width: 50%;
+    height: 100vh;
+    overflow: scroll;
+}
