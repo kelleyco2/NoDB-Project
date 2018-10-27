@@ -29,18 +29,20 @@ class Portfolio extends Component {
     render() {
         return (
             <div>
-                <table>
+                <table className="w3-table-all">
                     <tbody>
-                        <tr>
-                            <th>#</th>
+                        <tr className='w3-hover-blue'>
+                            <th>Rank</th>
                             <th>Name</th>
                             <th>Market Cap</th>
                             <th>Price</th>
                             <th>Change 24hr</th>
                             <th>Amount</th>
                             <th>Total</th>
+                            <th></th>
+                            <th></th>
                         </tr>
-                        <tr>
+                        <tr className='w3-hover-grey'>
                             <td>{this.props.coin.rank}</td>
                             <td>{this.props.coin.name}</td>
                             <td>${Math.round(this.props.coin.marketCap).toLocaleString()}</td>
@@ -52,17 +54,17 @@ class Portfolio extends Component {
                                 this.state.edit ? 
                                 (
                                     <div>
-                                        <input value={this.state.amount} type='number' onChange={this.handleAmountChange}/>
-                                        <button onClick={e => {this.props.editAmount(this.state.amount, this.props.coin.id); this.toggleEdit()}}>Submit</button>
-                                        <button onClick={this.toggleEdit}>Cancel</button>
+                                        <input className='w3-input'value={this.state.amount} type='number' onChange={this.handleAmountChange}/>
+                                        <button className="w3-button w3-round-xxlarge w3-blue" onClick={e => {this.props.editAmount(this.state.amount, this.props.coin.id); this.toggleEdit()}}>Submit</button>
+                                        <button className="w3-button w3-round-xxlarge w3-blue" onClick={this.toggleEdit}>Cancel</button>
                                     </div>
                                 ) :
                                 (
-                                <button onClick={this.toggleEdit}>Edit</button>
+                                <button className="w3-button w3-round-xxlarge w3-blue" onClick={this.toggleEdit}>Edit</button>
                                 )
                             }
                             </td>
-                            <td><button onClick={e => this.props.deletePortfolio(this.props.coin.id)}>Delete</button></td>
+                            <td><button className="w3-button w3-round-xxlarge w3-blue" onClick={e => this.props.deletePortfolio(this.props.coin.id)}>Delete</button></td>
                         </tr>
                     </tbody>
                 </table>

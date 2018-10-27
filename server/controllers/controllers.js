@@ -25,13 +25,11 @@ module.exports = {
     updateCoins: (req, res) => {
         let { amount } = req.body
         let {id} = req.params
-        console.log('before',coins)
         for(let i = 0; i < coins.length; i++) {
             if(coins[i].id === Number(id)) {
                 coins[i].num = amount
             }
         }
-        console.log('after',coins)
         res.status(200).send(coins)
 
         },
