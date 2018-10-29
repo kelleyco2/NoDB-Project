@@ -12,6 +12,8 @@ class Listings extends Component {
         this.state = {
             listings: [],
             portfolio: [],
+            total: 0,
+            logo: ''
         }
 
         this.updatePortfolio = this.updatePortfolio.bind(this)
@@ -25,7 +27,6 @@ class Listings extends Component {
                 listings: res.data.data
             })
         })
-
     }
 
     updatePortfolio(obj, value){
@@ -43,14 +44,28 @@ class Listings extends Component {
         })
 
         axios.get('/api/coins').then(res => {
+            let newTotal = 0
+            for(let i = 0; i < res.data.length; i++){
+                newTotal += res.data[i].num * res.data[i].price
+                this.setState({
+                    total: newTotal
+                })
+            }
             this.setState({
-                portfolio: res.data
+                portfolio: res.data,
             })
         })
     }
 
     editAmount(amount, id){
         axios.put(`/api/coins/${id}`, {amount}).then(res => {
+            let newTotal = 0
+            for(let i = 0; i < res.data.length; i++){
+                newTotal += res.data[i].num * res.data[i].price
+                this.setState({
+                    total: newTotal
+                })
+            }
             this.setState({
                 portfolio: res.data
             })
@@ -59,23 +74,36 @@ class Listings extends Component {
 
     deletePortfolio(id){
         axios.delete(`/api/coins/${id}`).then(res => {
+            let newTotal = 0
+            for(let i = 0; i < res.data.length; i++){
+                newTotal += res.data[i].num * res.data[i].price
+                this.setState({
+                    total: newTotal
+                })
+            }
             this.setState({
                 portfolio: res.data
             })
+            if(res.data.length < 1){
+                this.setState({
+                    total: 0
+                })
+            }
         })
     }
 
 
 
     render() {
-        let listings = this.state.listings.map( listing  => {
+        let listings = this.state.listings.map( (listing, i)  => {
             return (
                 <Listing 
                 listing={listing}
-                updatePortfolio={this.updatePortfolio}/>
+                updatePortfolio={this.updatePortfolio}
+                key={i}/>
             )
         })
-        let coins = this.state.portfolio.map(coin => {
+        let coins = this.state.portfolio.map((coin, i) => {
             return (
                 <Portfolio
                 coin={coin} 
@@ -85,13 +113,16 @@ class Listings extends Component {
                 amount={this.state.amount}
                 handleAmountChange={this.handleAmountChange}
                 editAmount={this.editAmount}
-                />
+                key={i}/>
             )
         })
         return(
             <div className='container'>
                 <div className='listings'>{listings}</div>
-                <div>{coins}</div>
+                <div className='portfolio'>
+                    {coins}
+                    <h2 style={{marginLeft: '16px'}}>Total ${Math.round(this.state.total).toLocaleString()}</h2>
+                </div>
             </div>
         )
     }

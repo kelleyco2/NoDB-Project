@@ -1,16 +1,26 @@
 import React, { Component } from 'react';
 import 'w3-css/w3.css';
-
 class Listing extends Component {
     constructor() {
         super()
 
         this.state = {
             value: 0,
+            logo: '',
+            percent: 'green'
         }
 
         this.updateValue = this.updateValue.bind(this)
     }
+
+    componentDidMount(){
+        if(this.props.listing.quote.USD.percent_change_24h < 0){
+            this.setState({
+                percent: 'red'
+            })
+        }
+    }
+
 
     updateValue(e){
         this.setState({
@@ -18,32 +28,8 @@ class Listing extends Component {
         })
     }
 
-    // let results = this.props.listings.map(obj => {
-    //     return (
-    //     <div key={obj.id}>
-    //         <table>
-    //             <tbody>
-    //             <tr>
-    //                 <th>#</th>
-    //                 <th>Name</th>
-    //                 <th>Market Cap</th>
-    //                 <th>Price</th>
-    //                 <th>Change 24hr</th>
-    //             </tr>
-    //             <tr>
-    //                 <td>{obj.cmc_rank}</td>
-    //                 <td>{obj.name}</td>
-    //                 <td>${Math.round(obj.quote.USD.market_cap).toLocaleString()}</td>
-    //                 <td>${obj.quote.USD.price.toFixed(3).toLocaleString()}</td>
-    //                 <td>{obj.quote.USD.percent_change_24h.toFixed(2)}%</td>
-    //                 <td><input value={this.state.value} type='number' onChange={this.props.updateValue}/></td>
-    //                 <td><button onClick={() => this.props.updatePortfolio(this.props.listing, this.state.value)}>+</button></td>
-    //             </tr>
-    //             </tbody>
-    //         </table>
-    //     </div>
-    //     )
-    // })
+
+    
     render() {
         return(
             <div key={this.props.listing.id}>
@@ -54,17 +40,17 @@ class Listing extends Component {
                             <th>Name</th>
                             <th>Market Cap</th>
                             <th>Price</th>
-                            <th>Change 24hr</th>
+                            <th>Change</th>
                             <th></th>
                             <th></th>
                         </tr>
-                        <tr className='w3-hover-grey'>
+                        <tr>
                             <td>{this.props.listing.cmc_rank}</td>
-                            <td>{this.props.listing.name}</td>
+                            <td><a style={{textDecoration: 'none', color: 'blue'}} href={`https://coinmarketcap.com/currencies/${this.props.listing.name}`} target="_blank">{this.props.listing.name}</a></td>
                             <td>${Math.round(this.props.listing.quote.USD.market_cap).toLocaleString()}</td>
-                            <td>${this.props.listing.quote.USD.price.toFixed(3).toLocaleString()}</td>
-                            <td>{this.props.listing.quote.USD.percent_change_24h.toFixed(2)}%</td>
-                            <td><input className='w3-input' value={this.state.value}type='number' onChange={this.updateValue} /></td>
+                            <td>${this.props.listing.quote.USD.price.toFixed(2).toLocaleString()}</td>
+                            <td style={{color: this.state.percent}}>{this.props.listing.quote.USD.percent_change_24h.toFixed(2)}%</td>
+                            <td><input className='w3-input' style={{width: '200px'}} value={this.state.value} type='number' onChange={this.updateValue} /></td>
                             <td><button className='w3-circle w3-blue' onClick={e => this.props.updatePortfolio(this.props.listing, +this.state.value)}>+</button></td>
                         </tr>
                     </tbody>

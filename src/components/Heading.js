@@ -1,7 +1,11 @@
 import React from 'react'
+import './Heading.css'
 
 export default function Heading() {
     return (
-        <h1 style={{marginLeft : '120px'}}>Top 100 Cryptocurrencies</h1>
+        <header className='header'>
+            <h1>Top 100 Cryptocurrencies</h1>
+            <h1>Portfolio</h1>
+        </header>
     )
 }

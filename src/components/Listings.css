@@ -3,7 +3,15 @@
 }
 
 .listings {
-    width: 50%;
+    width: 50vw;
     height: 100vh;
     overflow: scroll;
+}
+
+.portfolio {
+    width: 50vw;
+}
+
+input {
+    height: 25px;
 }
